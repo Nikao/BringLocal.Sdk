@@ -25,6 +25,10 @@ namespace BringLocal.Sdk
                     Offers.Add(new Offer(offer, response.StatusCode));
                 }
             }
+            else if (StatusCode == HttpStatusCode.NoContent)
+            {
+                Offers = new List<Offer>();
+            }
             else
             {
                 this.DeserializeErrors(response.Content);
