@@ -20,7 +20,14 @@ namespace BringLocal.Sdk
         public string MerchantName { get; set; }
         public bool RequiresLocation { get; set; }
         public bool Active { get; set; }
-        
+        public int FulfillmentTypeId { get; set; }
+        public bool RequireShippingAddress { get; set; }
+        public List<string> HighLights { get; set; }
+        public List<OfferImages> Images { get; set; }
+        public List<Product> Products { get; set; }
+        public List<Location> Locations { get; set; }
+        public List<Schedule> Schedules { get; set; } 
+
         private Offer(IRestResponse response)
         {
             StatusCode = response.StatusCode;
@@ -58,6 +65,33 @@ namespace BringLocal.Sdk
             MerchantName = item.merchantName;
             RequiresLocation = item.requiresLocation;
             Active = item.active;
+            FulfillmentTypeId = item.fulfillmentTypeId;
+            RequireShippingAddress = item.requireShippingAddress;
+            HighLights = new List<string>();
+            foreach (var highlight in item.highlights)
+            {
+                HighLights.Add(highlight);
+            }
+            Images = new List<OfferImages>();
+            foreach (var image in item.images)
+            {
+                Images.Add(new OfferImages(image));
+            }
+            Products = new List<Product>();
+            foreach (var product in item.products)
+            {
+                Products.Add(new Product(product));
+            }
+            Locations = new List<Location>();
+            foreach (var location in item.locations)
+            {
+                Locations.Add(new Location(location));
+            }
+            Schedules = new List<Schedule>();
+            foreach (var schedule in item.schedules)
+            {
+                Schedules.Add(new Schedule(schedule));
+            }
         }
     }
 }

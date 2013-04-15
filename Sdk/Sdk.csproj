@@ -49,11 +49,15 @@
     <Compile Include="ApiError.cs" />
     <Compile Include="ApiResponse.cs" />
     <Compile Include="ClientHelper.cs" />
+    <Compile Include="Location.cs" />
     <Compile Include="Offer.cs" />
+    <Compile Include="OfferImages.cs" />
     <Compile Include="OffersCollection.cs" />
+    <Compile Include="Product.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Publisher.cs" />
     <Compile Include="PublishersCollection.cs" />
+    <Compile Include="Schedule.cs" />
     <Compile Include="SdkSettings.cs" />
     <Compile Include="User.cs" />
     <Compile Include="UserToken.cs" />
