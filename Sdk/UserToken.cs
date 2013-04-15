@@ -10,7 +10,7 @@ namespace BringLocal.Sdk
 {
     public class UserToken : ApiResponse
     {
-        public string Id { get; set; }
+        public Guid Id { get; set; }
         public string Token { get; set; }
         public DateTime Expires { get; set; }
 
@@ -21,7 +21,7 @@ namespace BringLocal.Sdk
             {
                 var reader = new JsonFx.Json.JsonReader();
                 dynamic token = reader.Read(response.Content);
-                Id = token.id;
+                Id = new Guid(token.id);
                 Token = token.token;
                 Expires = token.expires;
             }

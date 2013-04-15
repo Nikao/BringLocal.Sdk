@@ -53,6 +53,8 @@
     <Compile Include="ApiError.cs" />
     <Compile Include="ApiResponse.cs" />
     <Compile Include="ClientHelper.cs" />
+    <Compile Include="CreditCard.cs" />
+    <Compile Include="CreditCardCollection.cs" />
     <Compile Include="Location.cs" />
     <Compile Include="Offer.cs" />
     <Compile Include="OfferImages.cs" />
