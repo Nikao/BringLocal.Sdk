@@ -12,6 +12,7 @@ namespace BringLocal.Sdk
     {
         public string Name { get; set; }
         public string Id { get; set; }
+        public List<AcceptedCreditCard> AcceptedCreditCards { get; set; }
 
         private Publisher(IRestResponse response)
         {
@@ -40,6 +41,12 @@ namespace BringLocal.Sdk
         {
             Name = item.name;
             Id = item.id;
+
+            AcceptedCreditCards = new List<AcceptedCreditCard>();
+            foreach (var acc in item.acceptedCreditCards)
+            {
+                AcceptedCreditCards.Add(new AcceptedCreditCard(acc));
+            }
         }
 
         public static Task<Publisher> Fetch(string id)

@@ -19,5 +19,12 @@ namespace BringLocal.Sdk
             request.AddHeader("X-BringLocal-APIKey", SdkSettings.ApiKey);
             return request;
         }
+
+        public static IRestRequest Request(string uri, Method method, string userToken)
+        {
+            var request = Request(uri, method);
+            request.AddHeader("Authorization", "Bearer " + userToken);
+            return request;
+        }
     }
 }
