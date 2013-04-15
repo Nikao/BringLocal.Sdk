@@ -9,16 +9,14 @@ namespace BringLocal.Sdk
     public class Schedule
     {
         public int Placement { get; set; }
-        public string CityId { get; set; }
-        public string CityName { get; set; }
+        public Guid SiteId { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
 
         public Schedule(dynamic item)
         {
             Placement = item.placement;
-            CityId = item.cityId;
-            CityName = item.cityName;
+            SiteId = new Guid(item.siteId);
             StartDate = Convert.ToDateTime(item.startDate);
             EndDate = Convert.ToDateTime(item.endDate);
         }
