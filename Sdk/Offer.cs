@@ -22,6 +22,8 @@ namespace BringLocal.Sdk
         public bool Active { get; set; }
         public int FulfillmentTypeId { get; set; }
         public bool RequireShippingAddress { get; set; }
+        public DateTime RedemptionStartDate { get; set; }
+        public DateTime RedemptionEndDate { get; set; }
         public List<string> HighLights { get; set; }
         public List<OfferImages> Images { get; set; }
         public List<Product> Products { get; set; }
@@ -87,6 +89,8 @@ namespace BringLocal.Sdk
             Active = item.active;
             FulfillmentTypeId = item.fulfillmentTypeId;
             RequireShippingAddress = item.requireShippingAddress;
+            RedemptionStartDate = Convert.ToDateTime(item.redemptionStartDate);
+            RedemptionEndDate = Convert.ToDateTime(item.redemptionEndDate);
             HighLights = new List<string>();
             foreach (var highlight in item.highlights)
             {
