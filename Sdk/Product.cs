@@ -8,7 +8,7 @@ namespace BringLocal.Sdk
 {
     public class Product
     {
-        public string Id { get; set; }
+        public Guid Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public decimal RealPrice { get; set; }
@@ -21,7 +21,7 @@ namespace BringLocal.Sdk
         
         public Product(dynamic item)
         {
-            Id = item.id;
+            Id = new Guid(item.id);
             Name = item.name;
             Description = item.description;
             RealPrice = Convert.ToDecimal(item.realPrice);

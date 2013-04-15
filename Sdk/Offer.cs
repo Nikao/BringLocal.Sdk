@@ -10,7 +10,7 @@ namespace BringLocal.Sdk
 {
     public class Offer : ApiResponse
     {
-        public string Id { get; set; }
+        public Guid Id { get; set; }
         public string OfferName { get; set; }
         public string Description { get; set; }
         public string FinePrint { get; set; }
@@ -53,9 +53,29 @@ namespace BringLocal.Sdk
             Initialize(item);
         }
 
+        public static Task<Offer> Fetch(Guid offerId)
+        {
+            var request = ClientHelper.Request("offers", Method.GET);
+            request.AddParameter("id", offerId);
+            
+            var tcs = new TaskCompletionSource<Offer>();
+            ClientHelper.Client().ExecuteAsync(request, response =>
+            {
+                if (response.ErrorException == null)
+                {
+                    tcs.SetResult(new Offer(response));
+                }
+                else
+                {
+                    tcs.SetException(response.ErrorException);
+                }
+            });
+            return tcs.Task;
+        }
+
         private void Initialize(dynamic item)
         {
-            Id = item.id;
+            Id = new Guid(item.id);
             OfferName = item.offerName;
             Description = item.description;
             FinePrint = item.finePrint;

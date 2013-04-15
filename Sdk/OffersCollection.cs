@@ -31,7 +31,7 @@ namespace BringLocal.Sdk
             }
         }
 
-        public static Task<OffersCollection> Fetch(string publisherId, string siteId)
+        public static Task<OffersCollection> Fetch(Guid publisherId, Guid siteId)
         {
             var request = ClientHelper.Request("offers", Method.GET);
             request.AddParameter("PublisherId", publisherId);

@@ -8,7 +8,7 @@ namespace BringLocal.Sdk
 {
     public class Location
     {
-        public string Id { get; set; }
+        public Guid Id { get; set; }
         public string Street { get; set; }
         public string City { get; set; }
         public string State { get; set; }
@@ -16,7 +16,7 @@ namespace BringLocal.Sdk
 
         public Location(dynamic item)
         {
-            Id = item.id;
+            Id = new Guid(item.id);
             State = item.street;
             City = item.city;
             State = item.state;
