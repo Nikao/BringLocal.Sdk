@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RestSharp;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,11 +10,26 @@ namespace BringLocal.Sdk
     public class User
     {
 
-        public static User Authenticate(string userName, string password)
+        public static Task<UserToken> Authenticate(string userName, string password)
         {
-            var user = new User();
+            var request = ClientHelper.Request("users/authenticate", Method.POST);
 
-            return user;
+            request.AddParameter("username", userName);
+            request.AddParameter("password", password);
+
+            var tcs = new TaskCompletionSource<UserToken>();
+            ClientHelper.Client().ExecuteAsync(request, response =>
+            {
+                if (response.ErrorException == null)
+                {
+                    tcs.SetResult(new UserToken(response));
+                }
+                else
+                {
+                    tcs.SetException(response.ErrorException);
+                }
+            });
+            return tcs.Task;
         }
     }
 }
