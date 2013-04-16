@@ -127,5 +127,26 @@ namespace BringLocal.Sdk
                 });
             return tcs.Task;
         }
+
+        public static Task<ApiResponse> ResetPassword(Guid publisherId, string email)
+        {
+            var request = ClientHelper.Request("users/resetpassword", Method.POST);
+            request.AddParameter("publisherId", publisherId.ToString());
+            request.AddParameter("email", email);
+
+            var tcs = new TaskCompletionSource<ApiResponse>();
+            ClientHelper.Client().ExecuteAsync(request, response =>
+                {
+                    if (response.ErrorException == null)
+                    {
+                        tcs.SetResult(new ApiResponse(response));
+                    }
+                    else
+                    {
+                        tcs.SetException(response.ErrorException);
+                    }
+                });
+            return tcs.Task;
+        }
     }
 }
