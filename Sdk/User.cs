@@ -67,7 +67,7 @@ namespace BringLocal.Sdk
         public static Task<HttpStatusCode> SignOut(string token)
         {
             var request = ClientHelper.Request("users/signout", Method.DELETE);
-            request.AddUrlSegment("token", token);
+            request.AddParameter("token", token);
 
             var tcs = new TaskCompletionSource<HttpStatusCode>();
             ClientHelper.Client().ExecuteAsync(request, response =>
@@ -101,6 +101,30 @@ namespace BringLocal.Sdk
                     tcs.SetException(response.ErrorException);
                 }
             });
+            return tcs.Task;
+        }
+
+        public static Task<ApiResponse> ChangePassword(Guid userId, Guid publisherId, string currentPassword, string newPassword,
+                                                          string userToken)
+        {
+            var request = ClientHelper.Request("users/{id}/password", Method.PUT, userToken);
+            request.AddUrlSegment("id", userId.ToString());
+            request.AddParameter("publisherId", publisherId.ToString());
+            request.AddParameter("currentPassword", currentPassword);
+            request.AddParameter("newPassword", newPassword);
+
+            var tcs = new TaskCompletionSource<ApiResponse>();
+            ClientHelper.Client().ExecuteAsync(request, response =>
+                {
+                    if (response.ErrorException == null)
+                    {
+                        tcs.SetResult(new ApiResponse(response));
+                    }
+                    else
+                    {
+                        tcs.SetException(response.ErrorException);
+                    }
+                });
             return tcs.Task;
         }
     }
