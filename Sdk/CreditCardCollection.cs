@@ -2,9 +2,7 @@
 using RestSharp;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace BringLocal.Sdk
@@ -14,7 +12,7 @@ namespace BringLocal.Sdk
         [JsonProperty("creditCards")]
         public List<CreditCard> CreditCards { get; set; }
 
-        private CreditCardCollection(IRestResponse response)
+        public CreditCardCollection(IRestResponse response)
         {
             StatusCode = response.StatusCode;
             CreditCards = new List<CreditCard>();
@@ -28,7 +26,7 @@ namespace BringLocal.Sdk
                     //NOP : nothing to deserialize
                     break;
                 default:
-                    this.DeserializeErrors(response.Content);
+                    DeserializeErrors(response.Content);
                     break;
             }
         }

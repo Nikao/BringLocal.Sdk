@@ -1,33 +1,30 @@
-﻿using RestSharp;
-using System;
+﻿using Newtonsoft.Json;
+using RestSharp;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace BringLocal.Sdk
 {
     public class PublishersCollection : ApiResponse
     {
+        [JsonProperty("publishers")]
         public List<Publisher> Publishers { get; set; } 
-        private PublishersCollection(IRestResponse response)
+        public PublishersCollection(IRestResponse response)
         {
+            Publishers = new List<Publisher>();
             StatusCode = response.StatusCode;
-            if (StatusCode == HttpStatusCode.OK)
+            switch (StatusCode)
             {
-                Publishers = new List<Publisher>();
-                var reader = new JsonFx.Json.JsonReader();
-                dynamic publishers = reader.Read(response.Content);
-
-                foreach (dynamic publisher in publishers)
-                {
-                    Publishers.Add(new Publisher(publisher, response.StatusCode));
-                }
-            }
-            else
-            {
-                this.DeserializeErrors(response.Content);
+                case HttpStatusCode.OK:
+                    JsonConvert.PopulateObject(response.Content, Publishers);
+                    break;
+                case HttpStatusCode.NoContent:
+                    //NOP - nothing to deserialize
+                    break;
+                default:
+                    DeserializeErrors(response.Content);
+                    break;
             }
         }
 

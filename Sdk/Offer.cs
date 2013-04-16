@@ -1,58 +1,77 @@
 ﻿using RestSharp;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Net;
+using Newtonsoft.Json;
 
 namespace BringLocal.Sdk
 {
     public class Offer : ApiResponse
     {
+        [JsonProperty("id")]
         public Guid Id { get; set; }
+        [JsonProperty("offerName")]
         public string OfferName { get; set; }
+        [JsonProperty("description")]
         public string Description { get; set; }
+        [JsonProperty("finePrint")]
         public string FinePrint { get; set; }
+        [JsonProperty("specialInstructions")]
         public string SpecialInstructions { get; set; }
+        [JsonProperty("quantitySold")]
         public int QuantitySold { get; set; }
+        [JsonProperty("offerUrl")]
         public string OfferUrl { get; set; }
+        [JsonProperty("merchantName")]
         public string MerchantName { get; set; }
+        [JsonProperty("requiresLocation")]
         public bool RequiresLocation { get; set; }
+        [JsonProperty("active")]
         public bool Active { get; set; }
+        [JsonProperty("fulfillmentTypeId")]
         public int FulfillmentTypeId { get; set; }
+        [JsonProperty("requireShippingAddress")]
         public bool RequireShippingAddress { get; set; }
+        [JsonProperty("redemptionStartDate")]
         public DateTime? RedemptionStartDate { get; set; }
+        [JsonProperty("redemptionEndDate")]
         public DateTime? RedemptionEndDate { get; set; }
+        [JsonProperty("highlights")]
         public List<string> HighLights { get; set; }
+        [JsonProperty("images")]
         public List<OfferImages> Images { get; set; }
+        [JsonProperty("products")]
         public List<Product> Products { get; set; }
+        [JsonProperty("locations")]
         public List<Location> Locations { get; set; }
+        [JsonProperty("schedules")]
         public List<Schedule> Schedules { get; set; } 
 
-        private Offer(IRestResponse response)
+        public Offer()
+        {
+            HighLights = new List<string>();
+            Images = new List<OfferImages>();
+            Products = new List<Product>();
+            Locations = new List<Location>();
+            Schedules = new List<Schedule>();
+        }
+        public Offer(IRestResponse response) : this()
         {
             StatusCode = response.StatusCode;
-            if (StatusCode == HttpStatusCode.OK)
-            {
-                var reader = new JsonFx.Json.JsonReader();
-                dynamic publisher = reader.Read(response.Content);
 
-                Initialize(publisher);
-            }
-            else if (StatusCode == HttpStatusCode.NoContent)
+            switch (StatusCode)
             {
-
+                case HttpStatusCode.OK:
+                    JsonConvert.PopulateObject(response.Content, this);
+                    break;
+                case HttpStatusCode.NoContent:
+                    //NOP: nothing to deserialize
+                    break;
+                default:
+                    DeserializeErrors(response.Content);
+                    break;
             }
-            else
-            {
-                this.DeserializeErrors(response.Content);
-            }
-        }
-        internal Offer(dynamic item, HttpStatusCode statusCode)
-        {
-            StatusCode = statusCode;
-            Initialize(item);
         }
 
         public static Task<Offer> Fetch(Guid offerId)
@@ -73,49 +92,6 @@ namespace BringLocal.Sdk
                 }
             });
             return tcs.Task;
-        }
-
-        private void Initialize(dynamic item)
-        {
-            Id = new Guid(item.id);
-            OfferName = item.offerName;
-            Description = item.description;
-            FinePrint = item.finePrint;
-            SpecialInstructions = item.specialInstructions;
-            QuantitySold = item.quantitySold;
-            OfferUrl = item.offerUrl;
-            MerchantName = item.merchantName;
-            RequiresLocation = item.requiresLocation;
-            Active = item.active;
-            FulfillmentTypeId = item.fulfillmentTypeId;
-            RequireShippingAddress = item.requireShippingAddress;
-            if (item.redemptionStartDate != null) RedemptionStartDate = Convert.ToDateTime(item.redemptionStartDate);
-            if (item.redemptionEndDate != null) RedemptionEndDate = Convert.ToDateTime(item.redemptionEndDate);
-            HighLights = new List<string>();
-            foreach (var highlight in item.highlights)
-            {
-                HighLights.Add(highlight);
-            }
-            Images = new List<OfferImages>();
-            foreach (var image in item.images)
-            {
-                Images.Add(new OfferImages(image));
-            }
-            Products = new List<Product>();
-            foreach (var product in item.products)
-            {
-                Products.Add(new Product(product));
-            }
-            Locations = new List<Location>();
-            foreach (var location in item.locations)
-            {
-                Locations.Add(new Location(location));
-            }
-            Schedules = new List<Schedule>();
-            foreach (var schedule in item.schedules)
-            {
-                Schedules.Add(new Schedule(schedule));
-            }
         }
     }
 }

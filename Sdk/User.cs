@@ -3,8 +3,6 @@ using Newtonsoft.Json;
 using RestSharp;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace BringLocal.Sdk
@@ -22,11 +20,14 @@ namespace BringLocal.Sdk
         [JsonProperty("accountBalances")]
         public List<UserAccountBalance> AccountBalances { get; set; }
 
-        public User(IRestResponse response)
+        public User()
         {
-            this.StatusCode = response.StatusCode;
-            AccountBalances = new List<UserAccountBalance>();
-
+            AccountBalances = new List<UserAccountBalance>(); 
+        }
+        public User(IRestResponse response) : this()
+        {
+            StatusCode = response.StatusCode;
+            
             switch (StatusCode)
             {
                 case HttpStatusCode.OK:
@@ -37,7 +38,7 @@ namespace BringLocal.Sdk
                     //NOP: nothing to deserialize
                     break;
                 default:
-                    this.DeserializeErrors(response.Content);
+                    DeserializeErrors(response.Content);
                     break;
             }
         }
@@ -45,7 +46,6 @@ namespace BringLocal.Sdk
         public static Task<UserToken> Authenticate(string userName, string password)
         {
             var request = ClientHelper.Request("users/authenticate", Method.POST);
-
             request.AddParameter("username", userName);
             request.AddParameter("password", password);
 
@@ -91,16 +91,16 @@ namespace BringLocal.Sdk
 
             var tcs = new TaskCompletionSource<User>();
             ClientHelper.Client().ExecuteAsync(request, response =>
+            {
+                if (response.ErrorException == null)
                 {
-                    if (response.ErrorException == null)
-                    {
-                        tcs.SetResult(new User(response));
-                    }
-                    else
-                    {
-                        tcs.SetException(response.ErrorException);
-                    }
-                });
+                    tcs.SetResult(new User(response));
+                }
+                else
+                {
+                    tcs.SetException(response.ErrorException);
+                }
+            });
             return tcs.Task;
         }
     }

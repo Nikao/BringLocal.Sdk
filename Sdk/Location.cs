@@ -1,26 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Newtonsoft.Json;
+using System;
 
 namespace BringLocal.Sdk
 {
     public class Location
     {
+        [JsonProperty("id")]
         public Guid Id { get; set; }
+        [JsonProperty("street")]
         public string Street { get; set; }
+        [JsonProperty("city")]
         public string City { get; set; }
+        [JsonProperty("state")]
         public string State { get; set; }
+        [JsonProperty("zip")]
         public string Zip { get; set; }
-
-        public Location(dynamic item)
-        {
-            Id = new Guid(item.id);
-            State = item.street;
-            City = item.city;
-            State = item.state;
-            Zip = item.zip;
-        }
     }
 }

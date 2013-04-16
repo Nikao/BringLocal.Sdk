@@ -2,8 +2,6 @@
 using RestSharp;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace BringLocal.Sdk
@@ -20,12 +18,19 @@ namespace BringLocal.Sdk
         public List<PurchaseProduct> Products { get; set; }
         [JsonProperty("locationId")]
         public Guid? LocationId { get; set; }
+        [JsonProperty("creditCardReferenceId")]
         public Guid? CreditCardReferenceId { get; set; }
+        [JsonProperty("saveCreditCard")]
         public bool? SaveCreditCard { get; set; }
+        [JsonProperty("creditCardNumber")]
         public string CreditCardNumber { get; set; }
+        [JsonProperty("creditCardType")]
         public int? CreditCardType { get; set; }
+        [JsonProperty("creditCardCVV")]
         public string CreditCardCVV { get; set; }
+        [JsonProperty("creditCardExpirationMonth")]
         public string CreditCardExpirationMonth { get; set; }
+        [JsonProperty("creditCardExpirationYear")]
         public string CreditCardExpirationYear { get; set; }
         [JsonProperty ("cardHolderName")]
         public string CreditCardHolderName { get; set; }
@@ -33,52 +38,25 @@ namespace BringLocal.Sdk
         public string CreditCardHolderAddress { get; set; }
         [JsonProperty("zip")]
         public string CreditCardHolderZip { get; set; }
+        [JsonProperty("couponCode")]
         public string CouponCode { get; set; }
+        [JsonProperty("shippingName")]
         public string ShippingName { get; set; }
+        [JsonProperty("shippingAddress1")]
         public string ShippingAddress1 { get; set; }
+        [JsonProperty("shippingAddress2")]
         public string ShippingAddress2 { get; set; }
+        [JsonProperty("shippingCity")]
         public string ShippingCity { get; set; }
+        [JsonProperty("shippingState")]
         public string ShippingState { get; set; }
+        [JsonProperty("shippingPostalCode")]
         public string ShippingPostalCode { get; set; }
 
         public Task<Receipt> Submit(string userToken)
         {
             var request = ClientHelper.Request("orders", Method.POST, userToken);
-            //request.AddParameter("siteId", SiteId);
-            //request.AddParameter("offerId", OfferId);
-            //request.AddParameter("agreeToTerms", AgreeToTerms);
-            ////request.AddParameter("products", Products);
-            //foreach (var product in Products)
-            //{         
-            //    request.AddObject(product);
-            //}
-
-            //if (LocationId.HasValue) request.AddParameter("locationId", LocationId.Value);
-            //if (CreditCardReferenceId.HasValue)
-            //    request.AddParameter("creditCardReferenceId", CreditCardReferenceId.Value);
-            //else
-            //{
-            //    request.AddParameter("creditCardNumber", CreditCardNumber ?? "");
-            //    if(CreditCardType.HasValue) request.AddParameter("CreditCardType", CreditCardType.Value);
-            //    request.AddParameter("creditCardCVV", CreditCardCVV ?? "");
-            //    request.AddParameter("creditCardExpirationMonth", CreditCardExpirationMonth ?? "");
-            //    request.AddParameter("creditCardExpirationYear", CreditCardExpirationYear ?? "");
-            //    request.AddParameter("cardHolderName", CreditCardHolderName ?? "");
-            //    request.AddParameter("address", CreditCardHolderAddress ?? "");
-            //    request.AddParameter("zip", CreditCardHolderZip ?? "");
-            //    if(SaveCreditCard.HasValue) request.AddParameter("saveCreditCard", SaveCreditCard.Value);
-            //}
-            //request.AddParameter("couponCode", CouponCode ?? "");
-            //request.AddParameter("shippingName", ShippingName ?? "");
-            //request.AddParameter("shippingAddress1", ShippingAddress1 ?? "");
-            //request.AddParameter("shippingAddress2", ShippingAddress2 ?? "");
-            //request.AddParameter("shippingCity", ShippingCity ?? "");
-            //request.AddParameter("shippingState", ShippingState ?? "");
-            //request.AddParameter("shippingPostalCode", ShippingPostalCode ?? "");
-
             var json = JsonConvert.SerializeObject(this);
-            Console.WriteLine("My JSON");
-            Console.WriteLine(json);
             request.AddParameter("text/json", JsonConvert.SerializeObject(this), ParameterType.RequestBody);
             
             var tcs = new TaskCompletionSource<Receipt>();
@@ -94,8 +72,6 @@ namespace BringLocal.Sdk
                 }
             });
             return tcs.Task;
-           
         }
     }
 }
-

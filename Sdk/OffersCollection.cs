@@ -1,37 +1,34 @@
-﻿using RestSharp;
+﻿using Newtonsoft.Json;
+using RestSharp;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace BringLocal.Sdk
 {
     public class OffersCollection : ApiResponse
     {
+        [JsonProperty("offers")]
         public List<Offer> Offers { get; set; }
-        private OffersCollection(IRestResponse response)
+        public OffersCollection()
+        {
+            Offers = new List<Offer>();
+        }
+        public OffersCollection(IRestResponse response) : this()
         {
             StatusCode = response.StatusCode;
-            if (StatusCode == HttpStatusCode.OK)
+            switch (StatusCode)
             {
-                Offers = new List<Offer>();
-                var reader = new JsonFx.Json.JsonReader();
-                dynamic offers = reader.Read(response.Content);
-
-                foreach (dynamic offer in offers)
-                {
-                    Offers.Add(new Offer(offer, response.StatusCode));
-                }
-            }
-            else if (StatusCode == HttpStatusCode.NoContent)
-            {
-                Offers = new List<Offer>();
-            }
-            else
-            {
-                this.DeserializeErrors(response.Content);
+                case HttpStatusCode.OK:
+                    JsonConvert.PopulateObject(response.Content, Offers);
+                    break;
+                case HttpStatusCode.NoContent:
+                    //NOP - nothing to deserialize
+                    break;
+                default:
+                    DeserializeErrors(response.Content);
+                    break;
             }
         }
 

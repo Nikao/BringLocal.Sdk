@@ -9,6 +9,7 @@ namespace BringLocal.Sdk
 {
     public class ApiResponse
     {
+        [JsonIgnore]
         public System.Net.HttpStatusCode StatusCode;
         [JsonProperty("errors")]
         public List<ApiError> ApiErrors { get; set; }

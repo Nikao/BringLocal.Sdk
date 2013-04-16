@@ -1,9 +1,6 @@
 ﻿using Newtonsoft.Json;
 using RestSharp;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace BringLocal.Sdk
@@ -26,10 +23,7 @@ namespace BringLocal.Sdk
         public Task<User> Create()
         {
             var request = ClientHelper.Request("users", Method.POST);
-            
             var json = JsonConvert.SerializeObject(this);
-            Console.WriteLine("My JSON");
-            Console.WriteLine(json);
             request.AddParameter("text/json", json, ParameterType.RequestBody);
 
             var tcs = new TaskCompletionSource<User>();
