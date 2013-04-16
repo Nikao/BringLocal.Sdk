@@ -66,6 +66,8 @@
     <Compile Include="Receipt.cs" />
     <Compile Include="Schedule.cs" />
     <Compile Include="SdkSettings.cs" />
+    <Compile Include="Subscribe.cs" />
+    <Compile Include="Subscription.cs" />
     <Compile Include="User.cs" />
     <Compile Include="UserAccountBalance.cs" />
     <Compile Include="UserToken.cs" />
