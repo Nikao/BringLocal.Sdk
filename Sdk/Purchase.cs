@@ -40,6 +40,8 @@ namespace BringLocal.Sdk
         public string CreditCardHolderZip { get; set; }
         [JsonProperty("couponCode")]
         public string CouponCode { get; set; }
+        [JsonProperty("spendCreditsOnPurchase")]
+        public bool SpendCreditsOnPurchase { get; set; }
         [JsonProperty("shippingName")]
         public string ShippingName { get; set; }
         [JsonProperty("shippingAddress1")]
