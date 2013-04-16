@@ -25,6 +25,10 @@ namespace BringLocal.Sdk
         public string OfferUrl { get; set; }
         [JsonProperty("merchantName")]
         public string MerchantName { get; set; }
+        [JsonProperty("merchantWebSite")]
+        public string MerchantWebSite { get; set; }
+        [JsonProperty("merchantLocationVisible")]
+        public bool MerchantLocationVisible { get; set; }
         [JsonProperty("requiresLocation")]
         public bool RequiresLocation { get; set; }
         [JsonProperty("active")]
@@ -41,6 +45,8 @@ namespace BringLocal.Sdk
         public List<string> HighLights { get; set; }
         [JsonProperty("images")]
         public List<OfferImages> Images { get; set; }
+        [JsonProperty("canPurchaseMultipleProducts")]
+        public bool CanPurchaseMultipleProducts { get; set; }
         [JsonProperty("products")]
         public List<Product> Products { get; set; }
         [JsonProperty("locations")]
