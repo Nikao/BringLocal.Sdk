@@ -1,4 +1,5 @@
-﻿using RestSharp;
+﻿using Newtonsoft.Json;
+using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,27 +11,25 @@ namespace BringLocal.Sdk
 {
     public class CreditCardCollection : ApiResponse
     {
+        [JsonProperty("creditCards")]
         public List<CreditCard> CreditCards { get; set; }
 
         private CreditCardCollection(IRestResponse response)
         {
             StatusCode = response.StatusCode;
             CreditCards = new List<CreditCard>();
-            if (StatusCode == HttpStatusCode.OK)
-            {
-                var reader = new JsonFx.Json.JsonReader();
-                dynamic creditCards = reader.Read(response.Content);
 
-                foreach (dynamic creditCard in creditCards)
-                {
-                    CreditCards.Add(new CreditCard(creditCard));
-                }
-            }
-            else if (StatusCode == HttpStatusCode.NoContent)
-            {}
-            else
+            switch (StatusCode)
             {
-                this.DeserializeErrors(response.Content);
+                case HttpStatusCode.OK:
+                    JsonConvert.PopulateObject(response.Content, CreditCards);
+                    break;
+                case HttpStatusCode.NoContent:
+                    //NOP : nothing to deserialize
+                    break;
+                default:
+                    this.DeserializeErrors(response.Content);
+                    break;
             }
         }
 

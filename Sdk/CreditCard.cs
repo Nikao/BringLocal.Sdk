@@ -14,10 +14,15 @@ namespace BringLocal.Sdk
         [JsonProperty("description")]
         public String Description { get; set; }
 
-        internal CreditCard(dynamic item)
+        //internal CreditCard(dynamic item)
+        //{
+        //    Id = new Guid(item.id);
+        //    Description = item.description;
+        //}
+
+        public CreditCard()
         {
-            Id = new Guid(item.id);
-            Description = item.description;
+
         }
     }
 }
