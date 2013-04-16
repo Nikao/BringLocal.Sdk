@@ -56,6 +56,7 @@
     <Compile Include="CreditCard.cs" />
     <Compile Include="CreditCardCollection.cs" />
     <Compile Include="Location.cs" />
+    <Compile Include="NewUser.cs" />
     <Compile Include="Offer.cs" />
     <Compile Include="OfferImages.cs" />
     <Compile Include="OffersCollection.cs" />

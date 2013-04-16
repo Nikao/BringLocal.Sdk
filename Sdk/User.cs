@@ -27,17 +27,18 @@ namespace BringLocal.Sdk
             this.StatusCode = response.StatusCode;
             AccountBalances = new List<UserAccountBalance>();
 
-            if (this.StatusCode == HttpStatusCode.OK)
+            switch (StatusCode)
             {
-                JsonConvert.PopulateObject(response.Content, this);
-            }
-            else if (this.StatusCode == HttpStatusCode.NoContent)
-            {
-                //NOP:    
-            }
-            else
-            {
-                this.DeserializeErrors(response.Content);
+                case HttpStatusCode.OK:
+                case HttpStatusCode.Created:
+                    JsonConvert.PopulateObject(response.Content, this);
+                    break;
+                case HttpStatusCode.NoContent:
+                    //NOP: nothing to deserialize
+                    break;
+                default:
+                    this.DeserializeErrors(response.Content);
+                    break;
             }
         }
 
@@ -102,6 +103,5 @@ namespace BringLocal.Sdk
                 });
             return tcs.Task;
         }
-
     }
 }
