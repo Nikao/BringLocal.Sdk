@@ -69,6 +69,7 @@
     <Compile Include="Schedule.cs" />
     <Compile Include="SdkSettings.cs" />
     <Compile Include="User.cs" />
+    <Compile Include="UserAccountBalance.cs" />
     <Compile Include="UserToken.cs" />
   </ItemGroup>
   <ItemGroup>
