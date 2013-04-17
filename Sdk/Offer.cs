@@ -80,10 +80,11 @@ namespace BringLocal.Sdk
             }
         }
 
-        public static Task<Offer> Fetch(Guid offerId)
+        public static Task<Offer> Fetch(Guid offerId, Guid siteId)
         {
-            var request = ClientHelper.Request("offers", Method.GET);
-            request.AddParameter("id", offerId);
+            var request = ClientHelper.Request("offers/{id}", Method.GET);
+            request.AddUrlSegment("id", offerId.ToString());
+            request.AddParameter("siteId", siteId.ToString());
             
             var tcs = new TaskCompletionSource<Offer>();
             ClientHelper.Client().ExecuteAsync(request, response =>

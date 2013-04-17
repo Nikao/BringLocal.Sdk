@@ -1,31 +1,26 @@
 ﻿using Newtonsoft.Json;
 using RestSharp;
-using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 
 namespace BringLocal.Sdk
 {
-    public class Publisher : ApiResponse
+    public class SitesCollection : ApiResponse
     {
-        [JsonProperty("name")]
-        public string Name { get; set; }
-        [JsonProperty("id")]
-        public string Id { get; set; }
-        
-        public Publisher()
+        [JsonProperty("sites")]
+        public List<Site> Sites { get; set; }
+        public SitesCollection(IRestResponse response)
         {
-            
-        }
-
-        public Publisher(IRestResponse response) : this()
-        {
+            Sites = new List<Site>();
             StatusCode = response.StatusCode;
             switch (StatusCode)
             {
                 case HttpStatusCode.OK:
-                    JsonConvert.PopulateObject(response.Content, this);
+                    JsonConvert.PopulateObject(response.Content, Sites);
+                    break;
+                case HttpStatusCode.NoContent:
+                    //NOP - nothing to deserialize
                     break;
                 default:
                     DeserializeErrors(response.Content);
@@ -33,17 +28,16 @@ namespace BringLocal.Sdk
             }
         }
 
-        public static Task<Publisher> Fetch(Guid id)
+        public static Task<SitesCollection> Fetch()
         {
-            var request = ClientHelper.Request("publishers/{id}", Method.GET);
-            request.AddUrlSegment("id", id.ToString());
+            var request = ClientHelper.Request("sites", Method.GET);
 
-            var tcs = new TaskCompletionSource<Publisher>();
+            var tcs = new TaskCompletionSource<SitesCollection>();
             ClientHelper.Client().ExecuteAsync(request, response =>
             {
                 if (response.ErrorException == null)
                 {
-                    tcs.SetResult(new Publisher(response));
+                    tcs.SetResult(new SitesCollection(response));
                 }
                 else
                 {

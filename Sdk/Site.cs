@@ -7,19 +7,21 @@ using System.Threading.Tasks;
 
 namespace BringLocal.Sdk
 {
-    public class Publisher : ApiResponse
+    public class Site : ApiResponse
     {
+        [JsonProperty("id")]
+        public Guid Id { get; set; }
         [JsonProperty("name")]
         public string Name { get; set; }
-        [JsonProperty("id")]
-        public string Id { get; set; }
-        
-        public Publisher()
+        [JsonProperty("acceptedCreditCards")]
+        public List<AcceptedCreditCard> AcceptedCreditCards { get; set; }
+
+        public Site()
         {
-            
+            AcceptedCreditCards = new List<AcceptedCreditCard>();
         }
 
-        public Publisher(IRestResponse response) : this()
+        public Site(IRestResponse response) : this()
         {
             StatusCode = response.StatusCode;
             switch (StatusCode)
@@ -33,17 +35,17 @@ namespace BringLocal.Sdk
             }
         }
 
-        public static Task<Publisher> Fetch(Guid id)
+        public static Task<Site> Fetch(Guid id)
         {
-            var request = ClientHelper.Request("publishers/{id}", Method.GET);
+            var request = ClientHelper.Request("sites/{id}", Method.GET);
             request.AddUrlSegment("id", id.ToString());
 
-            var tcs = new TaskCompletionSource<Publisher>();
+            var tcs = new TaskCompletionSource<Site>();
             ClientHelper.Client().ExecuteAsync(request, response =>
             {
                 if (response.ErrorException == null)
                 {
-                    tcs.SetResult(new Publisher(response));
+                    tcs.SetResult(new Site(response));
                 }
                 else
                 {
