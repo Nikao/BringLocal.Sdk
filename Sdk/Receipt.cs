@@ -2,6 +2,7 @@
 using RestSharp;
 using System;
 using System.Net;
+using System.Threading.Tasks;
 
 namespace BringLocal.Sdk
 {
@@ -51,31 +52,26 @@ namespace BringLocal.Sdk
                     DeserializeErrors(response.Content);
                     break;
             }
-            //if (StatusCode == HttpStatusCode.OK)
-            //{
-            //    var reader = new JsonFx.Json.JsonReader();
-            //    dynamic receipt = reader.Read(response.Content);
+        }
 
-            //    Id = new Guid(receipt.id);
-            //    OfferId = new Guid(receipt.offerId);
-            //    MerchantName = receipt.merchantName;
-            //    OfferName = receipt.offerName;
-            //    FulfillmentTypeId = receipt.fulfillmentTypeId;
-            //    OrderStatusId = receipt.orderStatusId;
-            //    FulfillmentStatusId = receipt.fulfillmentStatusId;
-            //    ShippingName = receipt.shippingName;
-            //    ShippingAddress1 = receipt.shippingAddress1;
-            //    ShippingAddress2 = receipt.shippingAddress2;
-            //    ShippingCity = receipt.shippingCity;
-            //    ShippingState = receipt.shippingState;
-            //    ShippingPostalCode = receipt.shippingPostalCode;
-            //    PurchaseDate = receipt.purchaseDate;
-            //    ExpirationDate = Convert.ToDateTime(receipt.expirationDate);
-            //}
-            //else
-            //{
-            //    this.DeserializeErrors(response.Content);
-            //}
+        public static Task<Receipt> Fetch(Guid orderId, string userToken)
+        {
+            var request = ClientHelper.Request("orders/{id}", Method.GET, userToken);
+            request.AddUrlSegment("id", orderId.ToString());
+
+            var tcs = new TaskCompletionSource<Receipt>();
+            ClientHelper.Client().ExecuteAsync(request, response =>
+            {
+                if (response.ErrorException == null)
+                {
+                    tcs.SetResult(new Receipt(response));
+                }
+                else
+                {
+                    tcs.SetException(response.ErrorException);
+                }
+            });
+            return tcs.Task;
         }
     }
 }
