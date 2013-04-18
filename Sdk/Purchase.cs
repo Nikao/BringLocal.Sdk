@@ -54,6 +54,13 @@ namespace BringLocal.Sdk
         public string ShippingState { get; set; }
         [JsonProperty("shippingPostalCode")]
         public string ShippingPostalCode { get; set; }
+        [JsonProperty("referredById")]
+        public Guid ReferredById { get; set; }
+
+        public Purchase()
+        {
+            ReferredById = Guid.Empty;
+        }
 
         public Task<Receipt> Submit(string userToken)
         {
