@@ -21,6 +21,13 @@ namespace BringLocal.Sdk
         public Guid PublisherId { get; set; }
         [JsonProperty("siteId")]
         public Guid SiteId { get; set; }
+        [JsonProperty("referredById")]
+        public Guid ReferredById { get; set; }
+
+        public NewUser()
+        {
+            ReferredById = Guid.Empty;
+        }
 
         public Task<User> Create()
         {
