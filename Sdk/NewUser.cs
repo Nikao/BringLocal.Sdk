@@ -19,6 +19,8 @@ namespace BringLocal.Sdk
         public bool Subscribe { get; set; }
         [JsonProperty("publisherId")]
         public Guid PublisherId { get; set; }
+        [JsonProperty("siteId")]
+        public Guid SiteId { get; set; }
 
         public Task<User> Create()
         {

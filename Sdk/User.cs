@@ -128,10 +128,11 @@ namespace BringLocal.Sdk
             return tcs.Task;
         }
 
-        public static Task<ApiResponse> ResetPassword(Guid publisherId, string email)
+        public static Task<ApiResponse> ResetPassword(Guid publisherId, Guid siteId, string email)
         {
             var request = ClientHelper.Request("users/resetpassword", Method.POST);
             request.AddParameter("publisherId", publisherId.ToString());
+            request.AddParameter("siteId", siteId.ToString());
             request.AddParameter("email", email);
 
             var tcs = new TaskCompletionSource<ApiResponse>();
