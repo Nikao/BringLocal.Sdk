@@ -22,6 +22,8 @@ namespace BringLocal.Sdk
         public int OrderStatusId { get; set; }
         [JsonProperty("fulfillmentStatusId")]
         public int FulfillmentStatusId { get; set; }
+        [JsonProperty("referralUrl")]
+        public string ReferralUrl { get; set; }
         [JsonProperty("shippingName")]
         public string ShippingName { get; set; }
         [JsonProperty("shippingAddress1")]
