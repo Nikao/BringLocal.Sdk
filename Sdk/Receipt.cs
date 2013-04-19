@@ -50,6 +50,10 @@ namespace BringLocal.Sdk
                 case HttpStatusCode.OK:
                     JsonConvert.PopulateObject(response.Content, this);
                     break;
+                case HttpStatusCode.NoContent:
+                case HttpStatusCode.InternalServerError:
+                    //NOP no content to parse
+                    break;
                 default:
                     DeserializeErrors(response.Content);
                     break;

@@ -14,6 +14,7 @@ namespace BringLocal.Sdk
         public OffersCollection()
         {
             Offers = new List<Offer>();
+
         }
         public OffersCollection(IRestResponse response) : this()
         {
