@@ -2,12 +2,12 @@
 <package >
   <metadata>
     <id>BringLocal.Sdk</id>
-    <version>0.1.1</version>
+    <version>0.1.2</version>
     <authors>Jim Lenox</authors>
     <owners>Jim Lenox</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>.Net wrapper for the BringLocal API</description>
-    <releaseNotes>First Release of SDK</releaseNotes>
+    <releaseNotes>Added SubscribeToEmailList on Purchase</releaseNotes>
     <copyright>Copyright 2013</copyright>
     <tags>C# API</tags>
     <dependencies>
