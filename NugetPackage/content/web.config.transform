@@ -1,0 +1,6 @@
+<configuration>
+  <appSettings> 
+    <add key="BringLocal.ApiEndPointUrl" value="{Your endpoint url}"/> 
+    <add key="BringLocal.ApiKey"         value="{Your Api Key}"/>
+  </appSettings>
+</configuration>

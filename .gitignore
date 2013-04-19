@@ -32,3 +32,5 @@ _ReSharper*/
 *.dat
 *.ncrunchsolution
 *.ncrunchproject
+*.nupkg
+NugetPackage/lib/
