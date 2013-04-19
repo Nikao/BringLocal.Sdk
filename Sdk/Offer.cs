@@ -27,6 +27,8 @@ namespace BringLocal.Sdk
         public string MerchantName { get; set; }
         [JsonProperty("merchantWebSite")]
         public string MerchantWebSite { get; set; }
+        [JsonProperty("merchantMapUrl")]
+        public string MerchantMapUrl { get; set; }
         [JsonProperty("merchantLocationVisible")]
         public bool MerchantLocationVisible { get; set; }
         [JsonProperty("requiresLocation")]
