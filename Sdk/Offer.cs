@@ -54,7 +54,13 @@ namespace BringLocal.Sdk
         [JsonProperty("locations")]
         public List<Location> Locations { get; set; }
         [JsonProperty("schedules")]
-        public List<Schedule> Schedules { get; set; } 
+        public List<Schedule> Schedules { get; set; }
+        [JsonProperty("isRestaurantDeal")]
+        public bool IsRestaurantDeal { get; set; }
+        [JsonProperty("restaurantId")]
+        public long? RestaurantId { get; set; }
+        [JsonProperty("restaurantPriceId")]
+        public string RestaurantPriceId { get; set; }
 
         public Offer()
         {

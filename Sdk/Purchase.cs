@@ -58,6 +58,24 @@ namespace BringLocal.Sdk
         public Guid ReferredById { get; set; }
         [JsonProperty("subscribeToEmailList")]
         public bool SubscribeToEmailList { get; set; }
+        [JsonProperty("restaurantId")]
+        public long? RestaurantId { get; set; }
+        [JsonProperty("restaurantPriceId")]
+        public string RestaurantPriceId { get; set; }
+        [JsonProperty("restaurantHoldId")]
+        public long? RestaurantHoldId { get; set; }
+        [JsonProperty("restaurantBookingNumber")]
+        public string RestaurantBookingNumber { get; set; }
+        [JsonProperty("restaurantPax")]
+        public int? RestaurantPax { get; set; }
+        [JsonProperty("restaurantName")]
+        public string RestaurantName { get; set; }
+        [JsonProperty("restaurantOutletName")]
+        public string RestaurantOutletName { get; set; }
+        [JsonProperty("restaurantReservationTime")]
+        public string RestaurantReservationTime { get; set; }
+        [JsonProperty("restaurantReservationDate")]
+        public string RestaurantReservationDate { get; set; }
 
         public Purchase()
         {
