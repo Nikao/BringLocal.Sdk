@@ -61,6 +61,10 @@ namespace BringLocal.Sdk
         public long? RestaurantId { get; set; }
         [JsonProperty("restaurantPriceId")]
         public string RestaurantPriceId { get; set; }
+        [JsonProperty("restaurantOutletId")]
+        public string RestaurantOutletId { get; set; }
+        [JsonProperty("restaurantSeats")]
+        public string RestaurantSeats { get; set; }
 
         public Offer()
         {
