@@ -2,12 +2,12 @@
 <package >
   <metadata>
     <id>BringLocal.Sdk</id>
-    <version>0.1.3</version>
+    <version>0.1.5</version>
     <authors>Jim Lenox</authors>
     <owners>Jim Lenox</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>.Net wrapper for the BringLocal API</description>
-    <releaseNotes>Added Map Url on Offer(s)</releaseNotes>
+    <releaseNotes>Added Restaurant Fields</releaseNotes>
     <copyright>Copyright 2013</copyright>
     <tags>C# API</tags>
     <dependencies>
